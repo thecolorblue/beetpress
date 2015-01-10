@@ -34,7 +34,7 @@ var dataAdapterConfig = {
  * Initialize our Rendr server.
  */
 var server = rendr.createServer({
-  dataAdapterConfig: dataAdapterConfig
+  dataAdapter: require('./server/data_adapter/beetpress.js')({})
 });
 
 /**

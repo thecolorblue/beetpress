@@ -16,7 +16,7 @@ module.exports = BaseApp.extend({
    * This is a good place to initialize any code that needs to be available to
    * app on both client and server.
    */
-  postInitialize: function() {
+  initialize: function() {
     /**
      * Register our Handlebars helpers.
      *

@@ -1,0 +1,16 @@
+<h1>Products</h1>
+
+<ul>
+{{#each models}}
+    {{view "products/tiny_products" model_name="Product" model=this}}
+{{/each}}
+</ul>
+<form>
+	<h2>create new product</h2>
+	<input id="name" type="text" name="name" placeholder="Name"/>
+
+	<input id="title" type="text" name="title" placeholder="title"/>
+
+	<input id="description" type="text" name="description" placeholder="description"/>
+	<button>add</button>
+</form>

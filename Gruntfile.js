@@ -6,6 +6,9 @@ var rendrHandlebarsDir = 'node_modules/rendr-handlebars';
 var rendrModulesDir = rendrDir + '/node_modules';
 
 module.exports = function(grunt) {
+  // load all grunt packages from package.json
+  require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -19,6 +22,12 @@ module.exports = function(grunt) {
         files: {
           'public/styles.css': stylesheetsDir + '/index.styl'
         }
+      }
+    },
+
+    exec: {
+      karma: {
+        command: 'karma start test/karma.config.js --single-run'
       }
     },
 
@@ -50,6 +59,13 @@ module.exports = function(grunt) {
           interrupt: true
         }
       },
+      // scriptsKarma: {
+      //   files: 'app/**/*.js',
+      //   tasks: ['exec:karma'],
+      //   options: {
+      //     interrupt: true
+      //   }
+      // },
       templates: {
         files: 'app/**/*.hbs',
         tasks: ['handlebars'],
@@ -99,10 +115,6 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.loadNpmTasks('grunt-browserify');
-  grunt.loadNpmTasks('grunt-contrib-handlebars');
-  grunt.loadNpmTasks('grunt-contrib-stylus');
-  grunt.loadNpmTasks('grunt-contrib-watch');
 
   grunt.registerTask('runNode', function () {
     grunt.util.spawn({
@@ -121,6 +133,9 @@ module.exports = function(grunt) {
 
   // Run the server and watch for file changes
   grunt.registerTask('server', ['compile', 'runNode', 'watch']);
+
+  // run karma when scripts change
+  grunt.registerTask('karma', ['watch:scriptsKarma']);
 
   // Default task(s).
   grunt.registerTask('default', ['compile']);

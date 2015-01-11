@@ -1,13 +1,14 @@
-# Rendr App Template
-## GitHub Browser
+# BeetPress
 
-The purpose of this little app is to demonstrate one way of using Rendr to build a web app that runs on both the client and the server.
+This app is for food producers to make it as easy as possible to share what they they are growing/providing on the internet. 
 
-![Screenshot](http://cl.ly/image/062d3S2D1Y38/Screen%20Shot%202013-04-09%20at%203.14.31%20PM.png)
+BeetPress is built on [rendr.js](https://github.com/rendrjs/rendr), using [mongodb](http://www.mongodb.org/) as the database. 
+
+Lots of thanks to [airbnb](https://github.com/airbnb) for rendr.js and [trantorLiu](https://github.com/trantorLiu) for the rendr example blog. 
 
 ## Running the example
 
-First, make sure to have Node >= 0.8.0 [installed on your system](http://nodejs.org/). Also, make sure to have `grunt-cli` installed globally.
+First, make sure to have Node >= 0.8.0 [installed on your system](http://nodejs.org/). Also, make sure to have `grunt-cli` installed globally. You will need mongodb installed and running before you start up BeetPress.
 
     $ npm install -g grunt-cli
 
@@ -328,8 +329,3 @@ use [Browserify](https://github.com/substack/node-browserify) to package our Jav
 that allows us to retain the CommonJS semantics for the browser. We compile stylesheets using
 [Stylus](https://github.com/learnboost/stylus). Check out `Gruntfile.js` in the root directory of
 this repo for details.
-
-
-## License
-
-MIT

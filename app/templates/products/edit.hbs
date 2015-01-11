@@ -1,0 +1,39 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Edit: {{title}}</h3>
+  </div>
+  <div class="panel-body">
+	<form>
+		<div class="form-group">
+			<label for="title">
+				Title
+			</label>
+			<input id="title"
+				class="form-control"
+				type="text"
+				name="title"
+				value="{{title}}" />
+
+			<label for="image">
+				Image url
+			</label>
+			<input id="image"
+				class="form-control"
+				type="text"
+				name="image"
+				value="{{image}}" />
+
+			<label for="description">
+				Description
+			</label>
+			<textarea id="description"
+				class="form-control"
+				name="description">
+				{{description}}
+			</textarea>
+
+			<button class="btn btn-default">submit</button>
+		</div>
+	</form>
+  </div>
+</div>

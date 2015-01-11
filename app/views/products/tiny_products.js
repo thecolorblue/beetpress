@@ -7,7 +7,7 @@ module.exports = BaseView.extend({
   },
   removeProduct: function(e) {
   	var view = this;
-  	e.preventDefault();
+  	if(e) e.preventDefault();
 
 
   	this.model.destroy({

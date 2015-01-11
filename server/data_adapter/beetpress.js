@@ -51,12 +51,12 @@ ProductSchema.statics.post = function(req, api, callback) {
 };
 
 ProductSchema.statics.put = function(req, api, callback) {
-  var id, update, data, options, post;
-  id = req.param('id');
+  var name, update, data, options, post;
+  name = req.param('name');
 
-  if (!id) return callback('Cannot update without id');
+  if (!name) return callback('Cannot update without name');
 
-  update = {_id: id};
+  update = {name: name};
   data = _.pick(req.body, ['name','title', 'description']);
   options = {};
 

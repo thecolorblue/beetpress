@@ -22,9 +22,10 @@ Run `npm install` to install dependencies:
 
 You need three values in your environment for BeetPress to run:
 
-  BPMONGODB (defaults to: 'mongodb://localhost/beetpress')
-  FBCLIENTID (no default; get from developers.facebook.com)
-  FBSECRET (no default; get from developers.facebook.com)
+    PORT (defaults to 80)
+    BPMONGODB (defaults to: 'mongodb://localhost/beetpress')
+    FBCLIENTID (no default; get from developers.facebook.com)
+    FBSECRET (no default; get from developers.facebook.com)
 
 Then, use `grunt server` to start up the web server. Grunt will recompile and restart the server when files change.
 
@@ -59,9 +60,6 @@ Now, pull up the app in your web browser. It defaults to port `3030`.
 
     $ open http://localhost:3030
 
-You can choose a different port by passing the `PORT` environment variable:
-
-    $ PORT=80 grunt server
 
 ### GitHub API rate limit
 

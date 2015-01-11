@@ -37,8 +37,8 @@ app.use(express.bodyParser());
   });
 
 passport.use(new FacebookStrategy({
-    clientID: '397230800443804',
-    clientSecret: 'fb974bc0c08e49b6237edb7b2ba6eb97',
+    clientID: process.env.FB_CLIENTID,
+    clientSecret: process.env.FB_SECRET,
     callbackURL: "http://localhost:3030/auth/facebook/callback"
   },
   function(accessToken, refreshToken, profile, done) {
@@ -74,7 +74,7 @@ passport.use(new FacebookStrategy({
     saveUninitialized: true,
     secret: 'super secret session secret',
     store: new mongoStore({
-      url: 'mongodb://localhost/bpsessions',
+      url: process.env.BPMONGODB || 'mongodb://localhost/beetpress',
       collection : 'sessions'
     })
   }));
@@ -91,7 +91,7 @@ passport.use(new FacebookStrategy({
  */
 var dataAdapterConfig = {
   'beetpress': {
-    // url: 'mongodb://localhost/beetpress'
+    url: process.env.BPMONGODB || 'mongodb://localhost/beetpress'
   }
 };
 

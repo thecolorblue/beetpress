@@ -20,6 +20,12 @@ Run `npm install` to install dependencies:
 
     $ npm install
 
+You need three values in your environment for BeetPress to run:
+
+  BPMONGODB (defaults to: 'mongodb://localhost/beetpress')
+  FBCLIENTID (no default; get from developers.facebook.com)
+  FBSECRET (no default; get from developers.facebook.com)
+
 Then, use `grunt server` to start up the web server. Grunt will recompile and restart the server when files change.
 
     $ grunt server

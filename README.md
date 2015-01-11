@@ -22,7 +22,7 @@ Run `npm install` to install dependencies:
 
 You need four values in your environment for BeetPress to run:
 
-    PORT (defaults to 80)
+    PORT (defaults to 3030)
     BPMONGODB (defaults to: 'mongodb://localhost/beetpress')
     FBCLIENTID (no default; get from developers.facebook.com)
     FBSECRET (no default; get from developers.facebook.com)

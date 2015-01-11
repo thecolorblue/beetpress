@@ -20,7 +20,7 @@ Run `npm install` to install dependencies:
 
     $ npm install
 
-You need three values in your environment for BeetPress to run:
+You need four values in your environment for BeetPress to run:
 
     PORT (defaults to 80)
     BPMONGODB (defaults to: 'mongodb://localhost/beetpress')

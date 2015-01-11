@@ -1,12 +1,12 @@
-require("chai").should();
-
-var Product = require('../../../app/models/product');
+var expect = require('chai').expect,
+  Product = require('../../../app/models/product');
 
 describe('Product', function() {
-
-  // it('should use login as the model id', function() {
-  //   var product = new Product({login: 'someusername'});
-  //   product.id.should.equal('someusername');
-  // });
-
+  beforeEach(function() {
+    this.model = new Product({
+      title: 'Test Product',
+      name: 'test-product',
+      description: 'this is a test product.'      
+    });
+  });
 });

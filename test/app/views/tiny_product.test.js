@@ -1,18 +1,12 @@
-var expect = require('chai').expect, 
-  $ = require('jquery'),
+var expect = require('chai').expect,
+  isServer = (typeof window === 'undefined'),
   TinyView = require('../../../app/views/products/tiny_products'),
   Product = require('../../../app/models/product'),
   App = require('../../../app/app');
 
 describe('TinyView', function() {
 
-  before(function () {
-    // Create test fixture.
-  });
-
   beforeEach(function () {
-    // Empty out and rebind the fixture for each run.
-
     this.view = new TinyView({
       modelName: 'Product',
       model: new Product({
@@ -22,34 +16,38 @@ describe('TinyView', function() {
       }),
       app: new App({rootPath: '/'})
     });
-
   });
 
-  afterEach(function () {
-    // Destroying the model also destroys the view.
-    this.view.model.destroy();
-  });
+  if(!isServer) {
+    // these actions will never be triggered on the server
+    // so we don't have to worry about testing them
 
-  after(function () {
-    // Remove all sub-fixtures after test suite finishes.
-    // $("#fixtures").empty();
-  });
-
-  it('should delete the model', function() {
-    // console.log(this.view.getHtml());
-    // var data = this.view.getTemplateData();
-    // this.view.delete({preventDefault: function() {} });
-    // console.log(this.view.model);
-    // expect(this.view.el.find('a').text()).to.equal('test-product');
-  });
-  it('should show the description', function() {});
-
-  // it('should have repos data in getTemplateData', function() {
-  //   var repos = [{foo: 'bar'}];
-  //   var view = new TinyView({ repos: repos, app: this.app });
-  //   var data = view.getTemplateData();
-  //   data.should.have.property('repos', repos);
-  // });
-
+    // also, the client and server router API's are different
+    // making these kinds of tests difficult
+    it('should delete the model', function() {
+      var view = this.view;
+      var pastView = view.app.router.currentRoute;
+      this.view.removeProduct();
+      setTimeout(function() {
+        expect(view.app.router.currentRoute).to.not.equal(pastView);
+      },0);
+    });
+    it('should be editable', function() {
+      var view = this.view;
+      var pastView = view.app.router.currentFragment;
+      this.view.editProduct();
+      setTimeout(function() {
+        expect(view.app.router.currentFragment).to.not.equal(pastView);
+      },0);
+    });
+    it('should add to cart', function() {
+      var view = this.view;
+      var pastView = view.app.router.currentFragment;
+      this.view.checkout();
+      setTimeout(function() {
+        expect(view.app.router.currentFragment).to.not.equal(pastView);
+      },0);
+    });    
+  }
 });
 

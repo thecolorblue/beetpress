@@ -21,6 +21,11 @@
           <ul class="nav navbar-nav">
             <li><a href="/">Home</a></li>
             <li><a href="/products">Products</a></li>
+            {{#if user}}
+            <li><a href="#">{{user.name}}</a></li>
+            {{else}}
+            <li><a href="/auth/facebook">Login with Facebook</a></li>
+            {{/if}}
           </ul>
           <div class="loading-indicator">Loading&hellip;</div>
         </div>
@@ -30,7 +35,6 @@
     <section id="content" class="container">
       {{{body}}}
     </section>
-
     <script src="/mergedAssets.js"></script>
     <script>
     (function() {

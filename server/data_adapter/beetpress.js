@@ -112,3 +112,7 @@ module.exports = function(adapterConfig) {
     }
   };
 };
+
+module.exports.models = {
+  User: require('./user_model.js')
+};

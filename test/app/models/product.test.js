@@ -6,7 +6,7 @@ describe('Product', function() {
     this.model = new Product({
       title: 'Test Product',
       name: 'test-product',
-      description: 'this is a test product.'      
+      description: 'this is a test product.'
     });
   });
 });

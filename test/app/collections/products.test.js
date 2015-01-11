@@ -1,13 +1,12 @@
-require("chai").should();
+var expect = require('chai').expect,
+  Products = require('../../../app/collections/products');
 
-var Repos = require('../../../app/collections/repos');
-
-describe('Repos', function() {
-
-  // it('should have a unique url if params.user is specified', function() {
-  //   var repos = new Repos();
-  //   repos.params.user = 'someusername';
-  //   repos.url().should.equal('/users/:user/repos');
-  // });
-
+describe('Products', function() {
+  beforeEach(function() {
+    this.collection = new Products([{
+      title: 'Test Product',
+      name: 'test-product',
+      description: 'this is a test product.'      
+    }]);
+  });
 });

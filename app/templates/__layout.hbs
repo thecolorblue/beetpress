@@ -27,9 +27,10 @@
             {{#user}}
             <li><a href="#">{{user.name}}</a></li>
             <li><a href="/logout">logout</a></li>
-            {{else}}
-            <li><a href="/auth/facebook">Login with Facebook</a></li>
             {{/user}}
+            {{#anonymous}}
+            <li><a href="/auth/facebook">Login with Facebook</a></li>
+            {{/anonymous}}
             {{#admin}}
             <li><a href="#">Admin</a></li>
             {{/admin}}

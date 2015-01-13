@@ -1,6 +1,9 @@
-<a href="/products/{{name}}" class="list-group-item">
+<a href="/products/{{name}}" class="list-group-item col-md-4 col-xs-12">
 	{{title}}
+    {{#owner this}}
     <span class="badge">
     	<button class="remove">x</button>
     </span>
+    {{/owner}}
+
 </a>

@@ -16,6 +16,10 @@ module.exports = function(Handlebars) {
     },
     admin: function(options) {
       return (user || {}).isAdmin ? options.fn(this) : '';
+    },
+    owner: function(product) {
+      // render if current user is the creator of this product
+      return user ? options.fn(this) : '';
     }
   };	
 };

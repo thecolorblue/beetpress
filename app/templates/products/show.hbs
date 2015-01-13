@@ -1,6 +1,7 @@
 <div>
   <h3>{{title}}</h3>
   <p>{{description}}</p>
-
+  {{#owner this}}
   <a href="/products/{{name}}/edit" class="btn btn-default">edit</a>
+  {{/owner}}
 </div>

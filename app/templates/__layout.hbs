@@ -13,19 +13,26 @@
   </head>
 
   <body class="">
+    {{setUser user}}
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
           <div class="navbar-header">
             <a class="navbar-brand" href="/">Beetpress</a>
           </div>
           <ul class="nav navbar-nav">
+            {{#anonymous}}
             <li><a href="/">Home</a></li>
+            {{/anonymous}}
             <li><a href="/products">Products</a></li>
-            {{#if user}}
+            {{#user}}
             <li><a href="#">{{user.name}}</a></li>
+            <li><a href="/logout">logout</a></li>
             {{else}}
             <li><a href="/auth/facebook">Login with Facebook</a></li>
-            {{/if}}
+            {{/user}}
+            {{#admin}}
+            <li><a href="#">Admin</a></li>
+            {{/admin}}
           </ul>
           <div class="loading-indicator">Loading&hellip;</div>
         </div>

@@ -10,12 +10,14 @@ ProductSchema = new Schema({
   title: String,
   name: String,
   description: String,
+  creator: String,
   date: Date,
   del: Boolean
 });
 
 ProductSchema.path('name').required(true).index(true);
 ProductSchema.path('title').required(true).index(true);
+ProductSchema.path('creator').required(true).index(true);
 ProductSchema.path('description').required(true);
 ProductSchema.path('date').default(Date.now);
 ProductSchema.path('del').default(false);
@@ -43,24 +45,29 @@ ProductSchema.statics.get = function(req, api, callback) {
 };
 
 ProductSchema.statics.post = function(req, api, callback) {
-  var data, post;
-  data = _.pick(req.body, ['name','title', 'description']);
-  post = new this(data);
-  post.save(callback);
-
+  if(req.user) {
+    (new this(_.extend({},req.body,{
+      creator: req.user.id
+    }))).save(callback);    
+  } else {
+    callback('not logged in');
+  }
 };
 
 ProductSchema.statics.put = function(req, api, callback) {
-  var name, update, data, options, post;
-  name = req.param('name');
+  if(req.user) {
+    var name = req.param('name');
 
-  if (!name) return callback('Cannot update without name');
+    if (!name) return callback('Cannot update without name');
 
-  update = {name: name};
-  data = _.pick(req.body, ['name','title', 'description']);
-  options = {};
-
-  this.update(update, data, options, callback);
+    this.update(
+      {name: name},
+      _.extend({}, req.body),
+      {},
+      callback);
+  } else {
+    callback('not logged in');
+  }
 };
 
 ProductSchema.statics.delete = function(req, api, callback) {
@@ -72,7 +79,7 @@ ProductSchema.statics.delete = function(req, api, callback) {
 };
 
 var models = {};
-models.products = mongoose.model('Product', ProductSchema);
+mongoose.model('Product', ProductSchema);
 
 function callbackFactory(callback) {
   return function(err, response) {
@@ -101,11 +108,12 @@ module.exports = function(adapterConfig) {
       }
 
       var pathModel = api.path.match(/^\/(.*)/);
-      var model = pathModel && pathModel.length ? pathModel[1].toLowerCase() : '';
+      var modelName = pathModel && pathModel.length ? pathModel[1].toLowerCase() : '';
       var method = api.method.toLowerCase();
-      console.log('fetching: ', model, method);
-      if(models[model] && models[model][method]) {
-        models[model][method](req, api, callbackFactory(callback));
+      var model = mongoose.connection.model(modelName);
+
+      if(model && model[method]) {
+        model[method](req, api, callbackFactory(callback));
       } else {
         callback('method_missing');
       }

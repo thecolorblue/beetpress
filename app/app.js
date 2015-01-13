@@ -1,5 +1,6 @@
-var BaseApp = require('rendr/shared/app')
-  , handlebarsHelpers = require('./lib/handlebarsHelpers');
+var BaseApp = require('rendr/shared/app'),
+  handlebarsHelpers = require('./lib/handlebarsHelpers'),
+  beetpressHelpers = require('../shared/helpers');
 
 /**
  * Extend the `BaseApp` class, adding any custom methods or overrides.
@@ -25,6 +26,7 @@ module.exports = BaseApp.extend({
      * modules that can be used on both client & server.
      */
     this.templateAdapter.registerHelpers(handlebarsHelpers);
+    this.templateAdapter.registerHelpers(beetpressHelpers);
   },
 
   /**

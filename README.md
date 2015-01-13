@@ -60,13 +60,6 @@ Now, pull up the app in your web browser. It defaults to port `3030`.
 
     $ open http://localhost:3030
 
-
-### GitHub API rate limit
-
-GitHub [rate limits](http://developer.github.com/v3/#rate-limiting) unauthenticated requests to its public API to 60 requests per hour per IP. This should be enough for just playing with the sample app, but if you pull it down and start developing off it you may run up against the rate limit.
-
-**You've been warned.** Your best bet may be to alter the project to read from your favorite RESTful API.
-
 ## Getting Started With Rendr
 
 It's worthwhile to read the first [blog post](http://nerds.airbnb.com/weve-launched-our-first-nodejs-app-to-product), which has some background on Rendr and its *raison d'être*.
@@ -115,11 +108,10 @@ This module path works in the browser as well.
 ```js
 // app/routes.js
 module.exports = function(match) {
-  match('',                   'home#index');
-  match('repos',              'repos#index');
-  match('repos/:owner/:name', 'repos#show');
-  match('users'       ,       'users#index');
-  match('users/:login',       'users#show');
+  match('',                      'home#index');
+  match('products',              'products#index');
+  match('products/:name',        'products#show');
+  match('products/:name/edit',   'products#edit');
 };
 
 ```

@@ -3,7 +3,6 @@ var passport = require('passport')
   , express = require('express')
   , rendr = require('rendr')
   , mongoose = require('mongoose')
-  , adapter = require('./server/data_adapter/beetpress.js')
   , _ = require('underscore')
   , ViewEngine = require('./node_modules/rendr/server/viewEngine')
   , app = express();
@@ -14,7 +13,7 @@ var cookieParser = require('cookie-parser');
 var cookieSession = require('cookie-session');
 
 var mongoStore = require('connect-mongo')(session);
-var User = mongoose.model('User');
+
 
 /**
  * Initialize Express middleware stack.
@@ -24,24 +23,26 @@ app.use(express.static(__dirname + '/public'));
 app.use(express.logger());
 app.use(express.bodyParser());
 
-/* setup authentication */
-  // serialize sessions
-  passport.serializeUser(function(user, done) {
-    done(null, user.id);
-  });
 
-  passport.deserializeUser(function(id, done) {
-    User.load({ criteria: { _id: id } }, function (err, user) {
-      done(err, user);
-    });
+/* setup authentication */
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  var User = mongoose.model('User');
+  User.load({ criteria: { _id: id } }, function (err, user) {
+    done(err, user);
   });
+});
 
 passport.use(new FacebookStrategy({
-    clientID: process.env.FB_CLIENTID,
-    clientSecret: process.env.FB_SECRET,
+    clientID: process.env.FB_CLIENTID || '318152745051896',
+    clientSecret: process.env.FB_SECRET || '669e4bd6431818ba7d372d1f08369cb1',
     callbackURL: "http://localhost:3030/auth/facebook/callback"
   },
   function(accessToken, refreshToken, profile, done) {
+    var User = mongoose.model('User');
     User.load({
       criteria: { 'facebook.id': profile.id }
     }, function (err, user) {
@@ -66,34 +67,22 @@ passport.use(new FacebookStrategy({
   }
 ));
 
+app.use(cookieParser());
+app.use(cookieSession({ secret: 'supersecret' }));
+app.use(session({
+  resave: true,
+  saveUninitialized: true,
+  secret: 'super secret session secret',
+  store: new mongoStore({
+    url: process.env.BPMONGODB || 'mongodb://localhost/beetpress',
+    collection : 'sessions'
+  })
+}));
 
-  app.use(cookieParser());
-  app.use(cookieSession({ secret: 'supersecret' }));
-  app.use(session({
-    resave: true,
-    saveUninitialized: true,
-    secret: 'super secret session secret',
-    store: new mongoStore({
-      url: process.env.BPMONGODB || 'mongodb://localhost/beetpress',
-      collection : 'sessions'
-    })
-  }));
+// use passport session
+app.use(passport.initialize());
+app.use(passport.session());
 
-  // use passport session
-  app.use(passport.initialize());
-  app.use(passport.session());
-
-/**
- * In this simple example, the DataAdapter config, which specifies host, port, etc. of the API
- * to hit, is written inline. In a real world example, you would probably move this out to a
- * config file. Also, if you want more control over the fetching of data, you can pass your own
- * `dataAdapter` object to the call to `rendr.createServer()`.
- */
-var dataAdapterConfig = {
-  'beetpress': {
-    url: process.env.BPMONGODB || 'mongodb://localhost/beetpress'
-  }
-};
 
 /**
  * Initialize our Rendr server.
@@ -118,9 +107,14 @@ ViewEngine.prototype.render = function render(viewPath, data, callback) {
   this.renderWithLayout(layoutData, app, callback);
 };
 var server = rendr.createServer({
-  dataAdapter: adapter({}),
+  dataAdapter: require('./server/data_adapter/beetpress.js')({}),
   viewEngine: new ViewEngine()
 });
+
+/* register handlebar helpers */
+// console.log(require('rendr-handlebars')({ entryPath: '/Volumes/Data/applications/beetpress/' }));
+// .registerHelpers(require('./shared/helpers'));
+
 
 /**
   * To mount Rendr, which owns its own Express instance for better encapsulation,
@@ -142,7 +136,8 @@ app.use(server);
 /* authentication routes */
 app.get('/auth/facebook', passport.authenticate('facebook', {
       scope: [ 'email', 'user_about_me']
-    }));
+    })
+);
 
 // Facebook will redirect the user to this URL after approval.  Finish the
 // authentication process by attempting to obtain an access token.  If
@@ -152,6 +147,10 @@ app.get('/auth/facebook/callback',
   passport.authenticate('facebook', { successRedirect: '/',
                                       failureRedirect: '/login' }));
 
+app.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
+});
 /**
  * Start the Express server.
  */

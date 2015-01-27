@@ -15,14 +15,28 @@
 				value="{{title}}" />
 
 			<label for="image">
+				Image file
+			</label>
+			<input id="image"
+				class="form-control"
+				type="file"
+				name="image"
+				value="{{image}}" />
+			<button class="submit-image">upload</button>
+
+			<label for="image">
 				Image url
 			</label>
 			<input id="image"
 				class="form-control"
 				type="text"
-				name="image"
+				name="imageUrl"
 				value="{{image}}" />
-
+			{{#each media}}
+			<div>
+				<img url="url"/>
+			</div>
+			{{/each}}
 			<label for="description">
 				Description
 			</label>

@@ -8,72 +8,72 @@ ProductSchema = new Schema({
   title: String,
   name: String,
   description: String,
-  creator: String,
+  producer: { type: Schema.Types.ObjectId, ref: 'Store' },
+  meta: Schema.Types.Mixed,
+  media: [{ type: Schema.Types.ObjectId, ref: 'Media' }],
   date: Date,
   del: Boolean
 });
 
 ProductSchema.path('name').required(true).index(true);
 ProductSchema.path('title').required(true).index(true);
-ProductSchema.path('creator').required(true).index(true);
+ProductSchema.path('producer').required(true).index(true);
 ProductSchema.path('description').required(true);
 ProductSchema.path('date').default(Date.now);
 ProductSchema.path('del').default(false);
+ProductSchema.virtual('producer_username', function() {
+  return this.producer.username;
+})
 
-ProductSchema.statics.get = function(req, api, callback) {
-  var id = req.param('id');
-  var name = req.param('name');
-  if (id) {
-    this.findById(id).exec(callback);
-  } else if(name) {
+ProductSchema.statics.get = function(model, callback) {
+  if (model._id) {
+    this
+      .findById(model._id)
+      .populate('producer')
+      .populate('media')
+      .exec(callback);
+  } else if(model.name) {
     this
       .find()
-      .where('name', name)
+      .where('name', model.name)
+      .populate('producer')
+      .populate('media')
       .where('del', false)
       .exec(function(err, response) {
+          console.log(response);
           callback(null, response[0]);
       });
 
   } else {
     this
     .find()
+    .populate('producer')
+    .populate('media')
     .where('del', false)
     .exec(callback);
   }
 };
 
-ProductSchema.statics.post = function(req, api, callback) {
-  if(req.user) {
-    (new this(_.extend({},req.body,{
-      creator: req.user.id
-    }))).save(callback);    
-  } else {
-    callback('not logged in');
-  }
+ProductSchema.statics.post = function(model, callback) {
+  this
+    .create(model)
+    .then(function(response) {
+      callback(null, response);
+    },function(error) {
+      callback(error);
+    });
 };
 
-ProductSchema.statics.put = function(req, api, callback) {
-  if(req.user) {
-    var name = req.param('name');
+ProductSchema.statics.put = function(model, callback) {
+    if (!model.name) return callback('Cannot update without name');
 
-    if (!name) return callback('Cannot update without name');
-
-    this.update(
-      {name: name},
-      _.extend({}, req.body),
-      {},
-      callback);
-  } else {
-    callback('not logged in');
-  }
+    this.update({name: model.name}, model, {}, callback);
 };
 
-ProductSchema.statics.delete = function(req, api, callback) {
-  var name = req.param('name');
-  if (!name) return callback('Cannot delete without name');
+ProductSchema.statics.delete = function(model, callback) {
+  if (!model.name) return callback('Cannot delete without name');
 
-  this.update({name: name}, {del: true}, callback);
-
+  this.update({name: model.name}, {del: true}, callback);
 };
-console.log('register product');
+
 module.exports = mongoose.model('Product', ProductSchema);

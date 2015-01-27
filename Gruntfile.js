@@ -108,7 +108,8 @@ module.exports = function(grunt) {
       },
       tests: {
         src: [
-          'test/app/**/*.js'
+          'test/app/**/*.js',
+          'test/server/**/*.js'
         ],
         dest: 'public/testBundle.js'
       }

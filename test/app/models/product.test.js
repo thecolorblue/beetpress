@@ -1,12 +1,14 @@
 var expect = require('chai').expect,
-  Product = require('../../../app/models/product');
+  isServer = (typeof window === 'undefined'),
+  Product = require('../../../app/models/product'),
+  Store = require('../../../app/models/store'),
+  App = (require('../../../app/app'));
 
 describe('Product', function() {
-  beforeEach(function() {
-    this.model = new Product({
-      title: 'Test Product',
-      name: 'test-product',
-      description: 'this is a test product.'
-    });
-  });
+	beforeEach(function() {
+		this.app = new App();
+		this.app.fetcher.modelStore.clear();
+		this.model = Product;
+		this.model.id = 'model';
+	});
 });

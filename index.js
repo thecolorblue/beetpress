@@ -5,8 +5,9 @@ var passport = require('passport')
   , mongoose = require('mongoose')
   , _ = require('underscore')
   , ViewEngine = require('./node_modules/rendr/server/viewEngine')
-  , app = express();
-
+  , app = express()
+  , multer = require('multer')
+  , mediaHandler = require('./server/media.js');
 
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
@@ -14,7 +15,12 @@ var cookieSession = require('cookie-session');
 
 var mongoStore = require('connect-mongo')(session);
 
+var testing;
 
+process.argv.forEach(function (val) {
+  if(val === '--test' || val === '-t')
+    testing = true;
+});
 /**
  * Initialize Express middleware stack.
  */
@@ -22,7 +28,6 @@ app.use(express.compress());
 app.use(express.static(__dirname + '/public'));
 app.use(express.logger());
 app.use(express.bodyParser());
-
 
 /* setup authentication */
 passport.serializeUser(function(user, done) {
@@ -37,8 +42,8 @@ passport.deserializeUser(function(id, done) {
 });
 
 passport.use(new FacebookStrategy({
-    clientID: process.env.FB_CLIENTID || '318152745051896',
-    clientSecret: process.env.FB_SECRET || '669e4bd6431818ba7d372d1f08369cb1',
+    clientID: process.env.FB_CLIENTID,
+    clientSecret: process.env.FB_SECRET,
     callbackURL: "http://localhost:3030/auth/facebook/callback"
   },
   function(accessToken, refreshToken, profile, done) {
@@ -51,7 +56,7 @@ passport.use(new FacebookStrategy({
         user = new User({
           name: profile.displayName,
           email: profile.emails[0].value,
-          username: profile.username,
+          username: profile.username || profile.emails[0].value,
           provider: 'facebook',
           facebook: profile._json
         });
@@ -127,15 +132,16 @@ var server = rendr.createServer({
 app.use(function(req, res, next) {
   if(req.user) {
     req.app.user = req.user;
+  } else {
+    req.app.user = null;
   }
   next();
 });
-app.use(server);
 
 
 /* authentication routes */
 app.get('/auth/facebook', passport.authenticate('facebook', {
-      scope: [ 'email', 'user_about_me']
+      scope: ['email','public_profile']
     })
 );
 
@@ -147,10 +153,26 @@ app.get('/auth/facebook/callback',
   passport.authenticate('facebook', { successRedirect: '/',
                                       failureRedirect: '/login' }));
 
-app.get('/logout', function(req, res){
+app.get('/auth/logout', function(req, res){
+  console.log('logging out');
   req.logout();
   res.redirect('/');
 });
+
+// file uploads
+app.use(multer({ dest: './public/images' }));
+app.post('/media/upload', mediaHandler);
+
+/* setup faux user for testing */
+if(testing) {
+  console.log('test mode');
+  app.post('/test/user', function(req, res) {
+    req.user = req.body;
+    res.json(req.body);
+  });
+}
+
+app.use(server);
 /**
  * Start the Express server.
  */

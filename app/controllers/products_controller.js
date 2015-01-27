@@ -3,7 +3,6 @@ var _ = require('underscore');
 module.exports = {
   index: function(params, callback) {
     this.app.set('title', 'Products');
-
     var spec = {
       collection: {collection: 'Products', params: params}
     };
@@ -43,5 +42,17 @@ module.exports = {
       this.app.set('title', 'Product Edit: ' + result.model.get('title'));
       callback(null, 'products/edit', result);
     }.bind(this));
+  },
+  create: function(params, callback) {
+    var spec = {
+      collection: {
+        collection: 'Stores',
+        params: _.extend(params, { owners: true })
+      }
+    };
+    console.log(spec);
+    this.app.fetch(spec, function(err, result) {
+      callback(err, 'products/create', result);
+    });
   }
 };

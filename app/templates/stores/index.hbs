@@ -1,0 +1,43 @@
+<h1>Products</h1>
+
+<div class="list-group">
+{{#each models}}
+    {{view "products/tiny_products" model_name="Product" model=this}}
+{{/each}}
+</div>
+<div class="clearfix"></div>
+{{#user}}
+
+{{/user}}
+
+  <div class="row">
+    <div class="col-md-12"> 
+      <div class="panel">
+        <div class="panel-body">
+          <!--/stories-->
+          {{#each models}}
+              {{view "products/tiny_products" model_name="Product" model=this}}
+          {{/each}}          
+          <!--/stories-->
+          <a href="/" class="btn btn-primary pull-right btnNext">More <i class="glyphicon glyphicon-chevron-right"></i></a>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Create A New Product</h3>
+        </div>
+        <div class="panel-body">
+        <form class="form-group">
+
+          <label for="name">Title</label>
+          <input id="name" class="form-control" type="text" name="name" placeholder="name"/>
+
+          <label for="email">Title</label>
+          <input id="email" class="form-control" type="text" name="email" placeholder="email"/>
+
+          <button class="btn btn-default">add</button>
+        </form>
+        </div>
+      </div>
+    </div><!--/col-12-->
+  </div>

@@ -1,0 +1,17 @@
+<form class="form-group">
+
+    <label for="title">Title</label>
+  <input id="title" class="form-control" type="text" name="title" placeholder="title"/>
+
+  <label for="description">Description</label>
+  <input id="description" class="form-control" type="text" name="description" placeholder="description"/>
+
+  <label for="producer">Producer</label>
+  <select name="producer" id="producer">
+  	{{#each models}}
+    <option val="{{username}}">{{name}}</option>
+    {{/each}}
+  </select>  
+  
+  <button class="btn btn-default">add</button>
+</form>

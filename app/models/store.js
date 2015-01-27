@@ -1,9 +1,9 @@
 var Base = require('./base');
 
 module.exports = Base.extend({
-  url: '/user',
+  url: '/:username',
   api: 'beetpress',
   idAttribute: '_id'	
 });
 
-module.exports.id = 'User';
+module.exports.id = 'Store';

@@ -1,4 +1,5 @@
-var BaseView = require('../base');
+var BaseView = require('../base'),
+  _ = require('underscore');
 
 module.exports = BaseView.extend({
   
@@ -6,8 +7,22 @@ module.exports = BaseView.extend({
   
   events: {
   	'keyup input' : 'updateModel',
+    'click .add-ingredient': 'addIngredient',
     'click .submit-image' : 'uploadFile',
-  	'submit form' : 'updateProduct'
+  	'click .submit' : 'updateProduct'
+  },
+
+  addIngredient: function(e) {
+    if(e) { e.preventDefault(); }
+    var ings = _.clone(this.model.get('ingredients'));
+    ings.push({
+      name: 'example',
+      description: 'example description'
+    });
+
+    this.model.set('ingredients', ings);
+
+    this.render();
   },
 
   uploadFile: function(e) {
@@ -49,13 +64,13 @@ module.exports = BaseView.extend({
   	var updates = {
       name: convertToSlug($('#title', this.$el).val()),
       title: $('#title', this.$el).val(),
-  		description: this.$el.find('textarea').val(),
-      producer_username: this.model.get('producer').username
+  		description: $('#description', this.$el).val(),
+      producer: this.model.get('producer')._id,
+      ingredients: this._getIngredients()
   	};
 
   	this.model.save(updates, {
       patch: true,
-      method: 'post',
   		success: function() {
   			view.app.router.redirectTo('/products/' + view.model.get('name'), { pushState: false });
   		}
@@ -67,6 +82,22 @@ module.exports = BaseView.extend({
           .replace(/ +/g,'-');
     }
 
+  },
+
+  _getIngredients: function() {
+    var ingredients = [];
+
+    this.$el.find('[data-index]').each(function(i, el) {
+      var $el = $(el);
+      var index = $el.attr('data-index') * 1;
+
+      ingredients[index] = {
+        name: $el.find('[name="name"]').val(),
+        description: $el.find('[name="description"]').val()
+      };
+    });
+
+    return ingredients;
   }
 
 });

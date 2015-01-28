@@ -4,4 +4,13 @@
   {{#owner this}}
   <a href="/products/{{name}}/edit" class="btn btn-default">edit</a>
   {{/owner}}
+
+  {{#each media}}
+  	<img src="{{url}}"/>
+  {{/each}}
+  {{#each ingredients}}
+  	<h5>{{name}}</h5>
+  	<p>{{description}}</p>
+  {{/each}}
+
 </div>

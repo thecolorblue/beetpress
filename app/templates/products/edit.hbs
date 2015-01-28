@@ -34,7 +34,7 @@
 				value="{{image}}" />
 			{{#each media}}
 			<div>
-				<img url="url"/>
+				<img url="{{url}}"/>
 			</div>
 			{{/each}}
 			<label for="description">
@@ -42,11 +42,22 @@
 			</label>
 			<textarea id="description"
 				class="form-control"
-				name="description">
-				{{description}}
-			</textarea>
+				name="description">{{description}}</textarea>
 
-			<button class="btn btn-default">submit</button>
+			<ul>
+			{{#forEach ingredients}}
+				<li data-index="{{key}}">
+					<p>index: {{key}}</p>
+					<p>value: {{json value}}</p>
+					<input type="text" name="name" value="{{value.name}}" data-index="{{key}}"/>
+					<input type="text" name="description" value="{{value.description}}" data-index="{{key}}"/>
+				</li>
+			{{/forEach}}
+			</ul>
+			<button class="add-ingredient" type="cancel">add ingredient</button>
+
+			<br/>
+			<button class="btn btn-default submit" type="submit">submit</button>
 		</div>
 	</form>
   </div>

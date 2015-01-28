@@ -11,6 +11,7 @@ ProductSchema = new Schema({
   producer: { type: Schema.Types.ObjectId, ref: 'Store' },
   meta: Schema.Types.Mixed,
   media: [{ type: Schema.Types.ObjectId, ref: 'Media' }],
+  ingredients: [{ type: Schema.Types.Mixed }],
   date: Date,
   del: Boolean
 });
@@ -21,9 +22,6 @@ ProductSchema.path('producer').required(true).index(true);
 ProductSchema.path('description').required(true);
 ProductSchema.path('date').default(Date.now);
 ProductSchema.path('del').default(false);
-ProductSchema.virtual('producer_username', function() {
-  return this.producer.username;
-})
 
 ProductSchema.statics.get = function(model, callback) {
   if (model._id) {
@@ -40,7 +38,6 @@ ProductSchema.statics.get = function(model, callback) {
       .populate('media')
       .where('del', false)
       .exec(function(err, response) {
-          console.log(response);
           callback(null, response[0]);
       });
 

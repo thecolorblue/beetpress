@@ -42,7 +42,6 @@ module.exports = function(adapterConfig) {
         mongoose.connection
           .model('Product')
           .post(this.req.body, function(err, response) {
-            console.log(err, response);
             _this.err = err;
             _this.response = response;
             next(!!err);
@@ -87,7 +86,6 @@ module.exports = function(adapterConfig) {
       },
       post: function(producer, name, next) {
         var _this = this;
-        console.log()
         mongoose.connection
           .model('Store')
           .find({ username: producer }, function(err, response) {
@@ -95,7 +93,6 @@ module.exports = function(adapterConfig) {
             .model('Product')
             .create(_this.req.body,
               function(err, response) {
-                console.log(arguments);
                 _this.err = err;
                 _this.response = response;
                 next(!!err);
@@ -113,7 +110,6 @@ module.exports = function(adapterConfig) {
               producer: response[0]._id,
               name: name
             }, _this.req.body, function(err, response) {
-                console.log(arguments);
                 _this.err = err;
                 _this.response = response;
                 next(!!err);
@@ -124,7 +120,6 @@ module.exports = function(adapterConfig) {
     '/:producer': {
       get: function(producer, next) {
         var _this = this;
-        console.log(producer, this.req.body);
         mongoose.connection
           .model('Store')
           .get({
@@ -186,7 +181,6 @@ module.exports = function(adapterConfig) {
         api.path = api.path.substr(0, api.path.length - 1);
       }
 
-      console.log(api.path);
       router.dispatch({ // fake request object
         url: api.path,
         method: api.method,
@@ -199,6 +193,8 @@ module.exports = function(adapterConfig) {
       {}, // fake response object (not used)
       function() {
         // all requests call this, which responds with any response and errors
+        console.log('request:', api.path);
+        console.log('response:', this.response);
         callback(this.err, { statusCode: this.status || 200 }, this.response);
       });
     },

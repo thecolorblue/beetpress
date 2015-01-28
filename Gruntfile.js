@@ -54,7 +54,7 @@ module.exports = function(grunt) {
     watch: {
       scripts: {
         files: 'app/**/*.js',
-        tasks: ['browserify'],
+        tasks: ['browserify:app'],
         options: {
           interrupt: true
         }
@@ -130,7 +130,7 @@ module.exports = function(grunt) {
   });
 
 
-  grunt.registerTask('compile', ['handlebars', 'browserify', 'stylus']);
+  grunt.registerTask('compile', ['handlebars', 'browserify:app', 'stylus']);
 
   // Run the server and watch for file changes
   grunt.registerTask('server', ['compile', 'runNode', 'watch']);

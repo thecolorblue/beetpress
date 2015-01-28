@@ -18,12 +18,13 @@
     "director": "^1.2.7",
     "express": "~3",
     "express-session": "^1.10.1",
+    "js-yaml": "^3.2.5",
     "mongoose": "^3.8.21",
     "multer": "^0.1.7",
     "passport": "^0.2.1",
     "passport-facebook": "^1.0.3",
-    "rendr": "0.5.0",
-    "rendr-handlebars": "0.2.0",
+    "rendr": "0.5.2",
+    "rendr-handlebars": "git://github.com/rendrjs/rendr-handlebars#master",
     "underscore": "~1.5.2"
   },
   "devDependencies": {

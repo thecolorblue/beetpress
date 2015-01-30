@@ -47,10 +47,8 @@
 			<ul>
 			{{#forEach ingredients}}
 				<li data-index="{{key}}">
-					<p>index: {{key}}</p>
-					<p>value: {{json value}}</p>
-					<input type="text" name="name" value="{{value.name}}" data-index="{{key}}"/>
-					<input type="text" name="description" value="{{value.description}}" data-index="{{key}}"/>
+					<input type="text" name="name" value="{{value.name}}"/>
+					<input type="text" name="description" value="{{value.description}}"/>
 				</li>
 			{{/forEach}}
 			</ul>

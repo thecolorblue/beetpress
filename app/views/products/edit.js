@@ -72,7 +72,7 @@ module.exports = BaseView.extend({
   	this.model.save(updates, {
       patch: true,
   		success: function() {
-  			view.app.router.redirectTo('/products/' + view.model.get('name'), { pushState: false });
+  			view.app.router.redirectTo('/' + view.model.get('producer_username') + '/' + view.model.get('name'), { pushState: false });
   		}
   	});
 

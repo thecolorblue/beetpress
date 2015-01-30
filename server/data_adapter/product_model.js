@@ -4,6 +4,10 @@ var mongoose = require('mongoose'),
     ProductSchema;
 
 /* Schemas */
+IngredientSchema = new Schema({
+  name: String,
+  description: String
+})
 ProductSchema = new Schema({
   title: String,
   name: String,
@@ -11,7 +15,7 @@ ProductSchema = new Schema({
   producer: { type: Schema.Types.ObjectId, ref: 'Store' },
   meta: Schema.Types.Mixed,
   media: [{ type: Schema.Types.ObjectId, ref: 'Media' }],
-  ingredients: [{ type: Schema.Types.Mixed }],
+  ingredients: [IngredientSchema],
   date: Date,
   del: Boolean
 });
@@ -35,9 +39,11 @@ ProductSchema.statics.get = function(model, callback) {
       .find()
       .where('name', model.name)
       .populate('producer')
+      .populate('ingredients')
       .populate('media')
       .where('del', false)
       .exec(function(err, response) {
+          console.log(arguments);
           callback(null, response[0]);
       });
 

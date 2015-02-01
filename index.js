@@ -112,7 +112,9 @@ ViewEngine.prototype.render = function render(viewPath, data, callback) {
   this.renderWithLayout(layoutData, app, callback);
 };
 var server = rendr.createServer({
-  dataAdapter: require('./server/data_adapter/beetpress.js')({}),
+  dataAdapter: require('./server/data_adapter/beetpress.js')({
+    url: process.env.BPMONGODB
+  }),
   viewEngine: new ViewEngine()
 });
 

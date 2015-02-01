@@ -44,7 +44,11 @@ passport.deserializeUser(function(id, done) {
 passport.use(new FacebookStrategy({
     clientID: process.env.FB_CLIENTID,
     clientSecret: process.env.FB_SECRET,
-    callbackURL: "http://localhost:3030/auth/facebook/callback"
+    callbackURL:
+      (process.env.NODE_ENV === 'production'
+        ? 'http://localhost:3030' :
+        'https://order.pearmarket.co')
+      + '/auth/facebook/callback'
   },
   function(accessToken, refreshToken, profile, done) {
     var User = mongoose.model('User');

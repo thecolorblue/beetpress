@@ -193,8 +193,6 @@ module.exports = function(adapterConfig) {
       {}, // fake response object (not used)
       function() {
         // all requests call this, which responds with any response and errors
-        console.log('request:', api.path);
-        console.log('response:', this.response);
         callback(this.err, { statusCode: this.status || 200 }, this.response);
       });
     },
@@ -206,5 +204,6 @@ module.exports.models = {
   User: require('./user_model'),
   Product: require('./product_model'),
   Event: require('./event_model'),
-  Store: require('./store_model')
+  Store: require('./store_model'),
+  Cart: require('./cart_model')
 };

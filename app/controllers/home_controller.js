@@ -5,5 +5,9 @@ module.exports = {
   },
   auth: function(params, callback) {
   	document.location = '/auth/' + params.name;
+  },
+  confirmation: function(params, callback) {
+  	this.app.set('Order Processed -- Thank You!')
+  	callback(null, 'home/confirmation');
   }
 };

@@ -54,5 +54,20 @@ module.exports = {
     this.app.fetch(spec, function(err, result) {
       callback(err, 'products/create', result);
     });
+  },
+  checkout: function(params, callback) {
+    var spec = {
+      model: {model: 'Product', params: params }
+    };
+    this.app.fetch(spec, function(err, result) {
+      // We must check for an error before accessing `result.model` (below),
+      // which may be undefined if there's an error (404, 500, etc.).
+      if (err) return callback(err);
+
+      // Because the page title depends on the Product model, we wait to set it
+      // until the fetch is complete.
+      this.app.set('title', 'Checkout');
+      callback(null, 'products/checkout', result);
+    }.bind(this));
   }
 };

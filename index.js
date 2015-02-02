@@ -7,7 +7,8 @@ var passport = require('passport')
   , ViewEngine = require('./node_modules/rendr/server/viewEngine')
   , app = express()
   , multer = require('multer')
-  , mediaHandler = require('./server/media.js');
+  , mediaHandler = require('./server/media.js')
+  , data_adapter = require('./server/data_adapter/beetpress.js');
 
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
@@ -46,7 +47,7 @@ passport.use(new FacebookStrategy({
     clientSecret: process.env.FB_SECRET,
     callbackURL:
       (process.env.NODE_ENV === 'production'
-        ? 'http://localhost:3030' :
+        ? 'http://local.pearmarket.co:3030' :
         'https://order.pearmarket.co')
       + '/auth/facebook/callback'
   },
@@ -116,7 +117,7 @@ ViewEngine.prototype.render = function render(viewPath, data, callback) {
   this.renderWithLayout(layoutData, app, callback);
 };
 var server = rendr.createServer({
-  dataAdapter: require('./server/data_adapter/beetpress.js')({
+  dataAdapter: data_adapter({
     url: process.env.BPMONGODB
   }),
   viewEngine: new ViewEngine()
@@ -168,6 +169,58 @@ app.get('/auth/logout', function(req, res){
 // file uploads
 app.use(multer({ dest: './public/images' }));
 app.post('/media/upload', mediaHandler);
+
+// not sure where this should go
+// this should not be a part of the regular api
+// as we will not be caling this from a model
+app.post('/checkout/:product', function(req, res) {
+  var Cart = data_adapter.models.Cart;
+  var User = data_adapter.models.User;
+  var Store = data_adapter.models.Store;
+  var Product = data_adapter.models.Product;
+  // {
+  //   name: $('#name', this.$el).val(),
+  //   phone: $('#phone', this.$el).val(),
+  //   email: $('#email', this.$el).val(),
+  //   product: this.model.get('_id')
+  // }
+  var model = {
+    name: req.body.name,
+    email: req.body.email,
+    phone: req.body.phone,
+    products: [req.body.product]
+  };
+  console.log(model);
+  // do validation here
+  (new Cart(model))
+    .save(function(err, cart) {
+      console.log(cart);
+      User.findOneAndUpdate(
+        { email: req.body.email },
+        {
+          $push: { orders: cart._id },
+        },
+        { upsert: true },
+        function(err, user) {
+          if(user.isNew) {
+            user.update({
+              phone: req.body.phone,
+              name: req.body.name
+            }, function(err) { if(err) console.log(err); });
+          }
+          res.json(err || cart);
+      });
+      Product.findById(req.body.product)
+        .populate('producer')
+        .exec(function(err, product) {
+          cart.update({
+            $push: {
+              stores: product.producer._id
+            }
+          }, function(err) { if(err) console.log(err); })
+      });
+    });
+});
 
 /* setup faux user for testing */
 if(testing) {

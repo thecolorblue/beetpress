@@ -26,7 +26,7 @@ module.exports = function(req, res) {
 			if(req.body.product_id) {
 				Product.findOneAndUpdate(req.body.product_id, {
 					$push: { media: image._id }
-				}, function() { console.log(arguments); });
+				}, function() {});
 			}
 			cloudinary.uploader.upload(req.files.thumbnail.path, function(results) {
 				image.url = results.url;

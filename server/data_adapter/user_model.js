@@ -29,6 +29,7 @@ var UserSchema = new Schema({
   salt: { type: String, default: '' },
   authToken: { type: String, default: '' },
   isAdmin: { type: Boolean, default: false },
+  orders: [{type: Schema.Types.ObjectId, ref: 'Cart' }],
   facebook: {},
   twitter: {},
   github: {},

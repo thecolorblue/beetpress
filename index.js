@@ -47,8 +47,8 @@ passport.use(new FacebookStrategy({
     clientSecret: process.env.FB_SECRET,
     callbackURL:
       (process.env.NODE_ENV === 'production'
-        ? 'http://local.pearmarket.co:3030' :
-        'https://order.pearmarket.co')
+        ? 'https://order.pearmarket.co' :
+        'http://local.pearmarket.co:3030')
       + '/auth/facebook/callback'
   },
   function(accessToken, refreshToken, profile, done) {

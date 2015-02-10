@@ -23,7 +23,7 @@ var oAuthTypes = [
 var UserSchema = new Schema({
   name: { type: String, default: '' },
   email: { type: String, default: '' },
-  username: { type: String, default: '' },
+  username: { type: String, default: '', unique: true },
   provider: { type: String, default: '' },
   hashed_password: { type: String, default: '' },
   salt: { type: String, default: '' },
@@ -152,6 +152,7 @@ UserSchema.methods = {
         .update(password)
         .digest('hex');
     } catch (err) {
+      console.log('user password encrypt error:', err);
       return '';
     }
   },
@@ -187,4 +188,4 @@ UserSchema.statics = {
   }
 }
 
-module.exports = mongoose.model('User', UserSchema);
+module.exports = UserSchema;

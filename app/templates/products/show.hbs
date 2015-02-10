@@ -1,19 +1,39 @@
-<div>
-  <h3>{{title}}</h3>
-  <p>{{description}}</p>
-  <div class="btn-group" role="group" aria-label="...">
-    {{#owner this}}
-    <a href="/products/{{name}}/edit" class="btn btn-default">edit</a>
-    {{/owner}}
-    <a href="/checkout/{{name}}" class="btn btn-default">buy it</a>
+<div class="jumbotron product-header">
+  <div class="container">
+    <h3 class="center-title">{{title}}</h3>
+    {{#if media.[0]}}
+    <img class="product-main-img img-circle" src="{{media.0.url}}"/>
+    {{/if}}
+    <div class="btn-group product-actions" role="group" aria-label="...">
+      <a href="/checkout/{{name}}" class="btn btn-default product-action">buy it</a>
+    </div>
   </div>
-
-  {{#each media}}
-  	<img src="{{url}}"/>
-  {{/each}}
-  {{#each ingredients}}
-  	<h5>{{name}}</h5>
-  	<p>{{description}}</p>
-  {{/each}}
-
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-5 product-ingredients">
+    {{#each ingredients}}
+      <h5>{{name}}</h5>
+      <p>{{description}}</p>
+    {{/each}}    
+    </div>
+    <div class="col-xs-7">
+      <p>{{description}}</p>
+    </div>    
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+    {{#each media}}
+      <img src="{{url}}" class="center-image img-rounded img-responsive" alt="Responsive image">
+    {{/each}}
+    </div>
+  </div>
+</div>
+<div class="jumbotron product-header">
+  <div class="container">
+    <h5><small>brought to you by:</small></h5>
+    <h4 class="center-title">{{producer.name}}</h4>
+  </div>
 </div>

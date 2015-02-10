@@ -56,4 +56,4 @@ CartSchema.statics.delete = function(model, callback) {
 
 };
 
-module.exports = mongoose.model('Cart', CartSchema);
+module.exports = CartSchema;

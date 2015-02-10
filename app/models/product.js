@@ -6,10 +6,16 @@ module.exports = Base.extend({
   api: 'beetpress',
   idAttribute: '_id',
   parse: function(response, options) {
-  	return response ? _.extend(response, { producer_username: response._id ? response.producer.username : response.producer }) : _.extend(this.defaults, response, {
-  		name: options ? options.data.name : '',
-  		producer_username: options ? options.data.producer : ''
-  	});
+    if(response) {
+      return _.extend(response, {
+        producer_username: response._id ? response.producer.username : response.producer
+      });
+    } else {
+      return _.extend({}, this.defaults, {
+        name: options ? options.data.name : '',
+        producer_username: options ? options.data.producer : ''
+      });
+    }
   }
 });
 module.exports.id = 'Product';

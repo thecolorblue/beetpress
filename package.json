@@ -23,6 +23,8 @@
     "multer": "^0.1.7",
     "passport": "^0.2.1",
     "passport-facebook": "^1.0.3",
+    "passport-google": "^0.3.0",
+    "passport-local": "^1.0.0",
     "rendr": "0.5.2",
     "rendr-handlebars": "git://github.com/rendrjs/rendr-handlebars#master",
     "underscore": "~1.5.2"

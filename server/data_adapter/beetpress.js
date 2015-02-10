@@ -12,13 +12,11 @@ module.exports = function(adapterConfig) {
     '/stores': {
       get: function(next) {
         var _this = this;
+        console.log('store arguments:', arguments);
         mongoose.connection
           .model('Store')
-          .get({
-            owners: {
-              $elemMatch: this.req.user._id
-            }
-          }, function(err, response) {
+          .get({},
+          function(err, response) {
             _this.err = err;
             _this.response = response;
             next(!!err);
@@ -117,9 +115,10 @@ module.exports = function(adapterConfig) {
           });        
       }
     },
-    '/:producer': {
+    '/stores/:producer': {
       get: function(producer, next) {
         var _this = this;
+        console.log(arguments)
         mongoose.connection
           .model('Store')
           .get({
@@ -201,9 +200,9 @@ module.exports = function(adapterConfig) {
 };
 
 module.exports.models = {
-  User: require('./user_model'),
-  Product: require('./product_model'),
-  Event: require('./event_model'),
-  Store: require('./store_model'),
-  Cart: require('./cart_model')
+  User: mongoose.model('User', require('./user_model')),
+  Product: mongoose.model('Product', require('./product_model')),
+  Event: mongoose.model('Event', require('./event_model')),
+  Store: mongoose.model('Store', require('./store_model')),
+  Cart: mongoose.model('Cart', require('./cart_model'))
 };

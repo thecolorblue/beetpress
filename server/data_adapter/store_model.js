@@ -62,4 +62,4 @@ StoreSchema.statics.delete = function(model, callback) {
 
 };
 
-module.exports = mongoose.model('Store', StoreSchema);
+module.exports = StoreSchema;

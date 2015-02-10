@@ -7,7 +7,7 @@ var mongoose = require('mongoose'),
 IngredientSchema = new Schema({
   name: String,
   description: String
-})
+});
 ProductSchema = new Schema({
   title: String,
   name: String,
@@ -43,7 +43,6 @@ ProductSchema.statics.get = function(model, callback) {
       .populate('media')
       .where('del', false)
       .exec(function(err, response) {
-          console.log(arguments);
           callback(null, response[0]);
       });
 
@@ -79,4 +78,4 @@ ProductSchema.statics.delete = function(model, callback) {
   this.update({name: model.name}, {del: true}, callback);
 };
 
-module.exports = mongoose.model('Product', ProductSchema);
+module.exports = ProductSchema;

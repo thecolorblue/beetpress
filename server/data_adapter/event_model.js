@@ -66,4 +66,4 @@ EventSchema.statics.delete = function(model, callback) {
 
 };
 
-module.exports = mongoose.model('Event', EventSchema);
+module.exports = EventSchema;

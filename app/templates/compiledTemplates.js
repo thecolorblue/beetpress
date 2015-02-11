@@ -144,20 +144,20 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 function program1(depth0,data) {
   
   var buffer = "", stack1, options;
-  buffer += "\n              ";
+  buffer += "\n      <div class=\"list-group-item col-sm-6 col-md-4\">\n      ";
   options = {hash:{
     'model_name': ("Product"),
     'model': (depth0)
   },data:data};
   buffer += escapeExpression(((stack1 = helpers.view || depth0.view),stack1 ? stack1.call(depth0, "products/tiny_products", options) : helperMissing.call(depth0, "view", "products/tiny_products", options)))
-    + "\n          ";
+    + "\n      </div>\n  ";
   return buffer;
   }
 
-  buffer += "<h1>Products</h1>\n\n<div class=\"clearfix\"></div>\n\n  <div class=\"row\">\n    <div class=\"col-md-12\"> \n      <div class=\"panel\">\n        <div class=\"panel-body\">\n          <!--/stories-->\n          ";
+  buffer += "<div class=\"jumbotron product-header\">\n  <div class=\"container\">\n    <h3 class=\"center-title\">Products</h3>\n  </div>\n</div>\n<!-- List group -->\n<div class=\"list-group\">\n  <!--/stories-->\n  ";
   stack1 = helpers.each.call(depth0, depth0.models, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "          \n          <!--/stories-->\n        </div>\n      </div>\n    </div><!--/col-12-->\n  </div>";
+  buffer += "          \n  <!--/stories-->\n</div>";
   return buffer;
   });
 
@@ -178,19 +178,28 @@ function program1(depth0,data) {
 function program3(depth0,data) {
   
   var buffer = "", stack1;
-  buffer += "\n      <h5>";
+  buffer += "\n        <a href=\"#\" class=\"list-group-item\">\n          <h4 class=\"list-group-item-heading\">";
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "</h5>\n      <p>";
+    + "</h4>\n          ";
+  stack1 = helpers['if'].call(depth0, depth0.description, {hash:{},inverse:self.noop,fn:self.program(4, program4, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n        </a>\n      ";
+  return buffer;
+  }
+function program4(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "<p class=\"list-group-item-text\">";
   if (stack1 = helpers.description) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.description; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "</p>\n    ";
+    + "</p>";
   return buffer;
   }
 
-function program5(depth0,data) {
+function program6(depth0,data) {
   
   var buffer = "", stack1;
   buffer += "\n      <img src=\"";
@@ -208,19 +217,23 @@ function program5(depth0,data) {
     + "</h3>\n    ";
   stack2 = helpers['if'].call(depth0, ((stack1 = depth0.media),stack1 == null || stack1 === false ? stack1 : stack1[0]), {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
   if(stack2 || stack2 === 0) { buffer += stack2; }
-  buffer += "\n    <div class=\"btn-group product-actions\" role=\"group\" aria-label=\"...\">\n      <a href=\"/checkout/";
+  buffer += "\n    <div class=\"btn-group product-actions left visible-xs\" role=\"group\" aria-label=\"...\">\n      <a href=\"/checkout/";
   if (stack2 = helpers.name) { stack2 = stack2.call(depth0, {hash:{},data:data}); }
   else { stack2 = depth0.name; stack2 = typeof stack2 === functionType ? stack2.apply(depth0) : stack2; }
   buffer += escapeExpression(stack2)
-    + "\" class=\"btn btn-default product-action\">buy it</a>\n    </div>\n  </div>\n</div>\n<div class=\"container\">\n  <div class=\"row\">\n    <div class=\"col-xs-5 product-ingredients\">\n    ";
+    + "\" class=\"btn btn-default product-action\">buy it</a>\n    </div>\n\n    <div class=\"btn-group product-actions right hidden-xs\" role=\"group\" aria-label=\"...\">\n      <a href=\"/checkout/";
+  if (stack2 = helpers.name) { stack2 = stack2.call(depth0, {hash:{},data:data}); }
+  else { stack2 = depth0.name; stack2 = typeof stack2 === functionType ? stack2.apply(depth0) : stack2; }
+  buffer += escapeExpression(stack2)
+    + "\" class=\"btn btn-default product-action\">buy it</a>\n    </div>  </div>\n</div>\n<div class=\"container\">\n  <div class=\"row\">\n    <div class=\"col-xs-5 product-ingredients\">\n      <h4><small>contains:<small></h4>\n      <div class=\"list-group\">\n      ";
   stack2 = helpers.each.call(depth0, depth0.ingredients, {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data});
   if(stack2 || stack2 === 0) { buffer += stack2; }
-  buffer += "    \n    </div>\n    <div class=\"col-xs-7\">\n      <p>";
+  buffer += "    \n      </div>\n    </div>\n    <div class=\"col-xs-7\">\n      <p class=\"well well-sm\">";
   if (stack2 = helpers.description) { stack2 = stack2.call(depth0, {hash:{},data:data}); }
   else { stack2 = depth0.description; stack2 = typeof stack2 === functionType ? stack2.apply(depth0) : stack2; }
   buffer += escapeExpression(stack2)
-    + "</p>\n    </div>    \n  </div>\n</div>\n<div class=\"container\">\n  <div class=\"row\">\n    <div class=\"col-xs-12\">\n    ";
-  stack2 = helpers.each.call(depth0, depth0.media, {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
+    + "</p>\n    </div>    \n  </div>\n</div>\n<div class=\"container\">\n  <div class=\"row\">\n    <div class=\"col-xs-12 col-sm-6 col-md-4\">\n    ";
+  stack2 = helpers.each.call(depth0, depth0.media, {hash:{},inverse:self.noop,fn:self.program(6, program6, data),data:data});
   if(stack2 || stack2 === 0) { buffer += stack2; }
   buffer += "\n    </div>\n  </div>\n</div>\n<div class=\"jumbotron product-header\">\n  <div class=\"container\">\n    <h5><small>brought to you by:</small></h5>\n    <h4 class=\"center-title\">"
     + escapeExpression(((stack1 = ((stack1 = depth0.producer),stack1 == null || stack1 === false ? stack1 : stack1.name)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
@@ -231,12 +244,15 @@ function program5(depth0,data) {
 templates["products/tiny_products"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, stack2, options, functionType="function", escapeExpression=this.escapeExpression, self=this, helperMissing=helpers.helperMissing;
+  var buffer = "", stack1, stack2, functionType="function", escapeExpression=this.escapeExpression, self=this;
 
 function program1(depth0,data) {
   
-  
-  return "\n    <span class=\"badge\">\n    	<button class=\"remove\">x</button>\n    </span>\n    ";
+  var buffer = "", stack1;
+  buffer += "\n      <img class=\"product-main-img img-circle\" src=\""
+    + escapeExpression(((stack1 = ((stack1 = ((stack1 = depth0.media),stack1 == null || stack1 === false ? stack1 : stack1[0])),stack1 == null || stack1 === false ? stack1 : stack1.url)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "\"/>\n      ";
+  return buffer;
   }
 
   buffer += "<a href=\"/"
@@ -245,19 +261,18 @@ function program1(depth0,data) {
   if (stack2 = helpers.name) { stack2 = stack2.call(depth0, {hash:{},data:data}); }
   else { stack2 = depth0.name; stack2 = typeof stack2 === functionType ? stack2.apply(depth0) : stack2; }
   buffer += escapeExpression(stack2)
-    + "\"\n  class=\"list-group-item col-md-4 col-xs-12\">\n  <div class=\"row\">    \n    <br>\n\n    <div class=\"col-md-10 col-sm-9\">\n      <h3>";
+    + "\">\n  <div class=\"row\">\n  \n    <div class=\"col-xs-8\">\n      <h3>";
   if (stack2 = helpers.title) { stack2 = stack2.call(depth0, {hash:{},data:data}); }
   else { stack2 = depth0.title; stack2 = typeof stack2 === functionType ? stack2.apply(depth0) : stack2; }
   buffer += escapeExpression(stack2)
-    + "</h3>\n      <div class=\"row\">\n        <div class=\"col-xs-9\">\n          <small\n            style=\"font-family:courier,'new courier';\"\n            class=\"text-muted\">\n            created: ";
+    + "</h3>\n      <br>\n      <small\n        style=\"font-family:courier,'new courier';\"\n        class=\"text-muted\">\n        created: ";
   if (stack2 = helpers.date) { stack2 = stack2.call(depth0, {hash:{},data:data}); }
   else { stack2 = depth0.date; stack2 = typeof stack2 === functionType ? stack2.apply(depth0) : stack2; }
   buffer += escapeExpression(stack2)
-    + "\n          </small>\n        </div>\n        <div class=\"col-xs-3\"></div>\n      </div>\n    </div>\n    ";
-  options = {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data};
-  stack2 = ((stack1 = helpers.owner || depth0.owner),stack1 ? stack1.call(depth0, depth0, options) : helperMissing.call(depth0, "owner", depth0, options));
+    + "\n      </small>\n    </div>\n    <div class=\"col-xs-4\">\n      ";
+  stack2 = helpers['if'].call(depth0, ((stack1 = depth0.media),stack1 == null || stack1 === false ? stack1 : stack1[0]), {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
   if(stack2 || stack2 === 0) { buffer += stack2; }
-  buffer += "\n  </div>\n  <hr>\n</a>\n";
+  buffer += "\n    </div>\n  </div>\n</a>\n";
   return buffer;
   });
 

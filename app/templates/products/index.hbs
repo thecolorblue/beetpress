@@ -1,17 +1,15 @@
-<h1>Products</h1>
-
-<div class="clearfix"></div>
-
-  <div class="row">
-    <div class="col-md-12"> 
-      <div class="panel">
-        <div class="panel-body">
-          <!--/stories-->
-          {{#each models}}
-              {{view "products/tiny_products" model_name="Product" model=this}}
-          {{/each}}          
-          <!--/stories-->
-        </div>
-      </div>
-    </div><!--/col-12-->
+<div class="jumbotron product-header">
+  <div class="container">
+    <h3 class="center-title">Products</h3>
   </div>
+</div>
+<!-- List group -->
+<div class="list-group">
+  <!--/stories-->
+  {{#each models}}
+      <div class="list-group-item col-sm-6 col-md-4">
+      {{view "products/tiny_products" model_name="Product" model=this}}
+      </div>
+  {{/each}}          
+  <!--/stories-->
+</div>

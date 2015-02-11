@@ -4,27 +4,35 @@
     {{#if media.[0]}}
     <img class="product-main-img img-circle" src="{{media.0.url}}"/>
     {{/if}}
-    <div class="btn-group product-actions" role="group" aria-label="...">
+    <div class="btn-group product-actions left visible-xs" role="group" aria-label="...">
       <a href="/checkout/{{name}}" class="btn btn-default product-action">buy it</a>
     </div>
-  </div>
+
+    <div class="btn-group product-actions right hidden-xs" role="group" aria-label="...">
+      <a href="/checkout/{{name}}" class="btn btn-default product-action">buy it</a>
+    </div>  </div>
 </div>
 <div class="container">
   <div class="row">
     <div class="col-xs-5 product-ingredients">
-    {{#each ingredients}}
-      <h5>{{name}}</h5>
-      <p>{{description}}</p>
-    {{/each}}    
+      <h4><small>contains:<small></h4>
+      <div class="list-group">
+      {{#each ingredients}}
+        <a href="#" class="list-group-item">
+          <h4 class="list-group-item-heading">{{name}}</h4>
+          {{#if description}}<p class="list-group-item-text">{{description}}</p>{{/if}}
+        </a>
+      {{/each}}    
+      </div>
     </div>
     <div class="col-xs-7">
-      <p>{{description}}</p>
+      <p class="well well-sm">{{description}}</p>
     </div>    
   </div>
 </div>
 <div class="container">
   <div class="row">
-    <div class="col-xs-12">
+    <div class="col-xs-12 col-sm-6 col-md-4">
     {{#each media}}
       <img src="{{url}}" class="center-image img-rounded img-responsive" alt="Responsive image">
     {{/each}}

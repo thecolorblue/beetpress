@@ -5,16 +5,19 @@
     <img class="product-main-img img-circle" src="{{media.0.url}}"/>
     {{/if}}
     <div class="btn-group product-actions left visible-xs" role="group" aria-label="...">
+      <button class="btn btn-disabled product-action">${{price}}</button>
       <a href="/checkout/{{name}}" class="btn btn-default product-action">buy it</a>
     </div>
 
     <div class="btn-group product-actions right hidden-xs" role="group" aria-label="...">
+      <button class="btn btn-disabled product-action">${{price}}</button>
       <a href="/checkout/{{name}}" class="btn btn-default product-action">buy it</a>
     </div>  </div>
 </div>
 <div class="container">
   <div class="row">
     <div class="col-xs-5 product-ingredients">
+      {{#if ingredients}}
       <h4><small>contains:<small></h4>
       <div class="list-group">
       {{#each ingredients}}
@@ -24,6 +27,7 @@
         </a>
       {{/each}}    
       </div>
+      {{/if}}
     </div>
     <div class="col-xs-7">
       <p class="well well-sm">{{description}}</p>

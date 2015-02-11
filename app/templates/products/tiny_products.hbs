@@ -4,10 +4,8 @@
     <div class="col-xs-8">
       <h3>{{title}}</h3>
       <br>
-      <small
-        style="font-family:courier,'new courier';"
-        class="text-muted">
-        created: {{date}}
+      <small class="text-muted">
+        ${{price}},{{#each ingredients}} {{name}}{{/each}}
       </small>
     </div>
     <div class="col-xs-4">

@@ -16,6 +16,7 @@ ProductSchema = new Schema({
   meta: Schema.Types.Mixed,
   media: [{ type: Schema.Types.ObjectId, ref: 'Media' }],
   ingredients: [IngredientSchema],
+  price: Number,
   date: Date,
   del: Boolean
 });
